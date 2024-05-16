@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:calc_upeu/theme/AppTheme.dart';
 
-class CustomAppBar extends StatefulWidget implements
+class CustomAppBarX extends StatefulWidget implements
     PreferredSizeWidget {
-  CustomAppBar({ super.key,
+  CustomAppBarX({ super.key,
     required this.accionx
   }) : preferredSize = Size.fromHeight(50.0);
   Function accionx;
@@ -17,7 +17,7 @@ class CustomAppBar extends StatefulWidget implements
 }
 
 
-class _CustomAppBarState extends State<CustomAppBar>{
+class _CustomAppBarState extends State<CustomAppBarX>{
   _CustomAppBarState( this.accionx );
   Function accionx;
   @override
@@ -30,18 +30,11 @@ class _CustomAppBarState extends State<CustomAppBar>{
           icon: AppTheme.useLightMode? const Icon(Icons.wb_sunny_outlined): const Icon(Icons.wb_sunny),
           onPressed: (){
             setState(() {
-              //GAA
               AppTheme.useLightMode = !AppTheme.useLightMode;
-              if(AppTheme.useLightMode==true){
-                AppTheme.themeDataLight=ThemeData(useMaterial3: AppTheme.useMaterial3,
-                    colorScheme: AppTheme.colorOptionsShemeL[AppTheme.colorSelected]
-                );
-              }else{
-                AppTheme.themeDataDark=ThemeData(useMaterial3: AppTheme.useMaterial3,
-                    colorScheme: AppTheme.colorOptionsShemeD[AppTheme.colorSelected]
-                );
-              }
-
+              AppTheme.themeData = ThemeData(
+                  colorSchemeSeed: AppTheme.colorOptions[AppTheme.colorSelected],
+                  useMaterial3: AppTheme.useMaterial3,
+                  brightness: AppTheme.useLightMode ? Brightness.light : Brightness.dark);
               accionx();
             });
           },
@@ -50,18 +43,13 @@ class _CustomAppBarState extends State<CustomAppBar>{
         IconButton(
           icon: AppTheme.useMaterial3? const Icon(Icons.filter_3): const Icon(Icons.filter_2),
           onPressed: (){
-            AppTheme.useMaterial3 = !AppTheme.useMaterial3;
-            if(AppTheme.useLightMode==true){
-              AppTheme.themeDataLight=ThemeData(useMaterial3: AppTheme.useMaterial3,
-                  colorScheme: AppTheme.colorOptionsShemeL[AppTheme.colorSelected]
-              );
-            }else{
-              AppTheme.themeDataDark=ThemeData(useMaterial3: AppTheme.useMaterial3,
-                  colorScheme: AppTheme.colorOptionsShemeD[AppTheme.colorSelected]
-              );
-            }
-
-
+            setState(() {
+              AppTheme.useMaterial3 = !AppTheme.useMaterial3;
+              AppTheme.themeData = ThemeData(
+                  colorSchemeSeed: AppTheme.colorOptions[AppTheme.colorSelected],
+                  useMaterial3: AppTheme.useMaterial3,
+                  brightness: AppTheme.useLightMode ? Brightness.light : Brightness.dark);
+            });
             accionx();
           },
           tooltip: "Switch to Material ${AppTheme.useMaterial3 ? 2 : 3}",
@@ -71,7 +59,7 @@ class _CustomAppBarState extends State<CustomAppBar>{
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           itemBuilder: (context) {
-            return List.generate(AppTheme.colorOptionsLD.length, (index) {
+            return List.generate(AppTheme.colorOptions.length, (index) {
               return PopupMenuItem(
                 value: index,
                 child: Wrap(
@@ -80,12 +68,12 @@ class _CustomAppBarState extends State<CustomAppBar>{
                       padding: const EdgeInsets.only(left: 10),
                       child: Icon(
                         index == AppTheme.colorSelected? Icons.color_lens: Icons.color_lens_outlined,
-                        color: AppTheme.colorOptionsLD[index],
+                        color: AppTheme.colorOptions[index],
                       ),
                     ),
                     Padding(
                         padding: const EdgeInsets.only(left: 20),
-                        child: Text(AppTheme.colorTextLD[index]))
+                        child: Text(AppTheme.colorText[index]))
                   ],
                 ),
                 onTap: (){
@@ -96,18 +84,12 @@ class _CustomAppBarState extends State<CustomAppBar>{
             });
           },
           onSelected: (valor){
-
-            if(AppTheme.useLightMode==true){
-              AppTheme.themeDataLight=ThemeData(useMaterial3: AppTheme.useMaterial3,
-                  colorScheme: AppTheme.colorOptionsShemeL[AppTheme.colorSelected]
-              );
-            }else{
-              AppTheme.themeDataDark=ThemeData(useMaterial3: AppTheme.useMaterial3,
-                  colorScheme: AppTheme.colorOptionsShemeD[AppTheme.colorSelected]
-              );
-            }
-
-
+            setState(() {
+              AppTheme.themeData = ThemeData(
+                  colorSchemeSeed: AppTheme.colorOptions[coloS],
+                  useMaterial3: AppTheme.useMaterial3,
+                  brightness: AppTheme.useLightMode ? Brightness.light : Brightness.dark);
+            });
             accionx();
           },
         ),
